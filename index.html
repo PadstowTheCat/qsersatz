@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EPO Guidelines Router</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; padding: 2rem; }
+    code { background: #f4f4f4; padding: 0.15rem 0.3rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>EPO Guidelines Router</h1>
+  <p>This page redirects based on whether the query looks like an EPO Guidelines citation.</p>
+  <p>Usage example: <code>?q=G-II%203.3.1</code></p>
+
+  <script>
+    (function () {
+      // Read query parameter ?q=...
+      const params = new URLSearchParams(window.location.search);
+      let raw = params.get('q') || '';
+
+      // Trim and normalize common whitespace
+      let query = raw.trim();
+
+      // If Chrome passed the whole query (including quotes etc.), we use it as-is.
+      // Normalize common dash variants to a single character for testing (not for redirect).
+      const dashNormalized = query
+        .replace(/\u2011/g, '-') // non-breaking hyphen
+        .replace(/\u2013/g, '-'); // en dash
+
+      // Regex for EPO Guidelines citation:
+      // - A–G
+      // - hyphen (allow -, U+2011, U+2013)
+      // - Roman numeral I–X (1–4 chars)
+      // - at least one space
+      // - 1 to 4 decimal components
+      const pattern = /^[A-G][\u2011\u2013-][IVX]{1,4}\s+[0-9]+(?:\.[0-9]+){0,3}$/;
+
+      // Test using the dash-normalized version, but keep the original for the destination
+      const isCitation = pattern.test(dashNormalized);
+
+      if (isCitation) {
+        // Forward to Guidelines with the original (unmodified) citation encoded
+        const target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/pct-epo-guidelines/2025/$l/' + encodeURIComponent(query) + '.xml';
+        window.location.replace(target);
+      } else {
+        // Otherwise, send to Google with the original query
+        const target = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+        window.location.replace(target);
+      }
+    })();
+  </script>
+</body>
+</html>
