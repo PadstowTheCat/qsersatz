@@ -29,7 +29,7 @@
         return;
       }
 
-      const QT_BASE = 'http://qt/'
+      const QT_BASE = 'http://qt/';
       const ALLOWED_COMMANDS = [ 'dfr' , 'ansera' ];
       const cmdMatch = raw.match(/^([A-Za-z0-9]+)\s+(.+)$/);
       if (cmdMatch) {
@@ -38,6 +38,8 @@
         const isAllowed = ALLOWED_COMMANDS.includes(command);
 
         if (isAllowed) {
+          document.write( '<h1>' + command + '</h1><br>' );
+          document.write( '<h2>' + parameters '</h2><br>' );
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
           const target = QT_BASE + command + ':' + encodeURIComponent(parameters);
           window.location.replace(target);
