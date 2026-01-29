@@ -22,15 +22,15 @@
       let raw = params.get('q') || '';
 
       // Trim and normalize common whitespace
-      let query = raw.trim().toLowerCase();
+      let query = raw.trim().toUpperCase();
       
-      if (/^pwb$/.test(query)) {
+      if (/^PWB$/.test(query)) {
         window.location.replace('https://batavia.internal.epo.org/inbox-prod/inbox/');
         return;
       }
 
       const QT_BASE = 'http://qt/';
-      const ALLOWED_COMMANDS = [ 'dfr' , 'ansera' ];
+      const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' ];
       const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
       if (cmdMatch) {
         const command = cmdMatch[1];
