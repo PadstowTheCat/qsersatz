@@ -40,7 +40,7 @@
         if (isAllowed) {
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
           const target = QT_BASE + command + ':' + encodeURIComponent(parameters);
-          redirect(target);
+          window.location.replace(target);
           return;
         }
         // If not allowed, continue to other handlers below.
