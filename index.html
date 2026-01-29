@@ -42,7 +42,7 @@
           // document.write( '<h2>' + parameters + '</h2><br>' );
           // sleep(3);
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
-          const target = QT_BASE + command + ':' + encodeURIComponent(parameters);
+          const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
           window.location.replace(target);
           return;
         }
