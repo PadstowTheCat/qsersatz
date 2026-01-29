@@ -23,6 +23,19 @@
 
       // Trim and normalize common whitespace
       let query = raw.trim().toUpperCase();
+      
+      if (/^pwb$/.test(query)) {
+        window.location.replace('https://batavia.internal.epo.org/inbox-prod/inbox/');
+        return;
+      }
+
+      
+      if (/^EP\d{8}$/.test(query)) {
+        const target = 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' + encodeURIComponent(query);
+        window.location.replace(target);
+        return;
+      }
+
 
       // If Chrome passed the whole query (including quotes etc.), we use it as-is.
       // Normalize common dash variants to a single character for testing (not for redirect).
