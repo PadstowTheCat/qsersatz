@@ -83,7 +83,7 @@
         window.location.replace(target);
       } else {
         // Otherwise, send to Google with the original query
-        const target = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+        const target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
         // or to the new QT tool
         // const target = 'http://qt/' + raw.trim();
         window.location.replace(target);
