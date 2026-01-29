@@ -63,7 +63,9 @@
         window.location.replace(target);
       } else {
         // Otherwise, send to Google with the original query
-        const target = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+        //const target = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+        // or to the new QT tool
+        const target = 'http://qt/' + encodeURIComponent(query);
         window.location.replace(target);
       }
     })();
