@@ -65,7 +65,7 @@
         // Otherwise, send to Google with the original query
         //const target = 'https://www.google.com/search?q=' + encodeURIComponent(query);
         // or to the new QT tool
-        const target = 'http://qt/' + query;
+        const target = 'http://qt/' + raw.trim();
         window.location.replace(target);
       }
     })();
