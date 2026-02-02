@@ -1,0 +1,9 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <Contact>rabram@epo.org</Contact>
+  <Developer>Rob Abram</Developer>
+  <ShortName>QSErsatz, to preserve the auto-detection of the original QuickSource</ShortName>
+  <InputEncoding>UTF-8</InputEncoding>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <Url type="text/html" template="https://padstowthecat.github.io/epo-guidelines-router?q={searchTerms}"/>
+  <Image height="16" width="16" type="image/gif">https://padstowthecat.github.io/epo-guidelines-router/images/qs_16x16.gif</Image>
+</OpenSearchDescription>
