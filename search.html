@@ -67,16 +67,11 @@
       // - at least one space
       // - 1 to 4 decimal components
       const gl-pattern = /^[A-H][\u2011\u2013-][IVX]{1,4}\s+[0-9]+(?:\.[0-9]+){0,3}$/;
-      const art-pattern = /^A\d{0,3}[A-Za-z]?$/;
       
       // Test using the dash-normalized version, but keep the original for the destination
       const isCitation = gl-pattern.test(dashNormalized);
-      const isEPCArticle = art-pattern.test(dashNormalized);
       
-      if (isEPCArticle) {
-        const target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epc/2025_04/$l/' + encodeURIComponent(dashNormalized) + '.xml';
-        window.location.replace(target);
-      } else if (isCitation) {
+      if (isCitation) {
         // Forward to Guidelines with the original (unmodified) citation encoded
         
         const gl-citationWithDot = query.replace( /^([A-H][\u2011\u2013-][IVX]{1,4})\s+([0-9]+(?:\.[0-9]+){0,3})$/ , (_, left, right) => `${left}.${right}` );
