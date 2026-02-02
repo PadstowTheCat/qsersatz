@@ -15,81 +15,9 @@
   <h1>EPO Guidelines Router</h1>
   <p>This page redirects based on whether the query looks like an EPO Guidelines citation.</p>
   <p>Usage example: <code>?q=G-II%203.3.1</code></p>
-
-  <script>
-    (function () {
-      // Read query parameter ?q=...
-      const params = new URLSearchParams(window.location.search);
-      let raw = params.get('q') || '';
-
-      // Trim and normalize common whitespace
-      let query = raw.trim().toUpperCase();
-      
-      if (/^PWB$/.test(query)) {
-        window.location.replace('https://batavia.internal.epo.org/inbox-prod/inbox/');
-        return;
-      }
-
-      const QT_BASE = 'http://qt/';
-      const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' ];
-      const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
-      if (cmdMatch) {
-        const command = cmdMatch[1];
-        const parameters = cmdMatch[2];
-        const isAllowed = ALLOWED_COMMANDS.includes(command);
-
-        if (isAllowed) {
-          // document.write( '<h1>' + command + '</h1><br>' );
-          // document.write( '<h2>' + parameters + '</h2><br>' );
-          // sleep(3);
-          // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
-          const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
-          window.location.replace(target);
-          return;
-        }
-        // If not allowed, continue to other handlers below.
-      }
-
-      
-      if (/^EP\d{8}$/.test(query)) {
-        const target = 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' + encodeURIComponent(query);
-        window.location.replace(target);
-        return;
-      }
-
-
-      // If Chrome passed the whole query (including quotes etc.), we use it as-is.
-      // Normalize common dash variants to a single character for testing (not for redirect).
-      const dashNormalized = query
-        .replace(/\u2011/g, '-') // non-breaking hyphen
-        .replace(/\u2013/g, '-'); // en dash
-
-      // Regex for EPO Guidelines citation:
-      // - A–G
-      // - hyphen (allow -, U+2011, U+2013)
-      // - Roman numeral I–X (1–4 chars)
-      // - at least one space
-      // - 1 to 4 decimal components
-      const pattern = /^[A-G][\u2011\u2013-][IVX]{1,4}\s+[0-9]+(?:\.[0-9]+){0,3}$/;
-
-      // Test using the dash-normalized version, but keep the original for the destination
-      const isCitation = pattern.test(dashNormalized);
-
-      if (isCitation) {
-        // Forward to Guidelines with the original (unmodified) citation encoded
-        
-        const citationWithDot = query.replace( /^([A-G][\u2011\u2013-][IVX]{1,4})\s+([0-9]+(?:\.[0-9]+){0,3})$/ , (_, left, right) => `${left}.${right}` );
-
-        const target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epcgl/2025/$l/' + encodeURIComponent(citationWithDot) + '.xml';
-        window.location.replace(target);
-      } else {
-        // Otherwise, send to Google with the original query
-        const target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
-        // or to the new QT tool
-        // const target = 'http://qt/' + raw.trim();
-        window.location.replace(target);
-      }
-    })();
-  </script>
+  <form action="/search.html" method="get">
+    <input type="text" id="q" name="q"/>
+    <button type="submit">Submit</button>
+  </form>
 </body>
 </html>
