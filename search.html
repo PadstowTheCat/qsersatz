@@ -75,6 +75,7 @@
       
       if (isEPCArticle) {
         const target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epc/2025-04/$l/' + encodeURIComponent(dashNormalized) + '.xml';
+        window.location.replace(target);
       } else if (isCitation) {
         // Forward to Guidelines with the original (unmodified) citation encoded
         
