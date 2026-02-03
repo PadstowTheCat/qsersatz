@@ -95,9 +95,11 @@
       // - at least one space
       // - 1 to 4 decimal components
       const glPattern = /^[A-H][\u2011\u2013-][IVX]{1,4}\s+[0-9]+(?:\.[0-9]+){0,3}$/;
+      const epcPattern = /^[AR]\d{0,3}[A-Za-z]?$/;
       
       // Test using the dash-normalized version, but keep the original for the destination
       const isGlCitation = glPattern.test(dashNormalized);
+      const isEPCCitation = epcPattern.test(dashNormalized);
       
       if (isGlCitation) {
         // Forward to Guidelines with the original (unmodified) citation encoded
@@ -108,6 +110,13 @@
         doSearch(target);
         return;
       }
+
+      if (isEPCCitation) {
+        target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epc/2025_04/$l/' + encodeURIComponent(query) + '.xml';
+        doSearch(target);
+        return;
+      }
+
       
       // Otherwise, send to Google with the original query
       target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
