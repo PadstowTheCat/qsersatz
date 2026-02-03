@@ -36,7 +36,15 @@
       // Trim and normalize common whitespace
       let query = raw.trim().toUpperCase();
 
+      // Debugging output
       document.write('<h2> Query is: ' + query + '</h2>');
+
+      // Hard-coded PWB call
+      if (/^PWB$/.test(query)) {
+        doSearch('https://batavia.internal.epo.org/inbox-prod/inbox/');
+        return;
+      }
+      
       doSearch(query);
     })();
       
