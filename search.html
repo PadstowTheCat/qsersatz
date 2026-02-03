@@ -23,6 +23,7 @@
       if (debug) {
         document.write( '<h1>' + myTarget + '</h1>');
       } else {
+        document.write('<h1>Redirecting...</h1>');
         window.location.replace(myTarget);
       }
     }
@@ -36,6 +37,7 @@
       let query = raw.trim().toUpperCase();
 
       document.write('<h2>' + query + '</h2>');
+      doSearch(query);
     })();
       
     /*
