@@ -31,7 +31,13 @@
     (function () {
       // Read query parameter ?q=...
       const params = new URLSearchParams(window.location.search);
+      const re = /^\s*([^ :?]+)(?:[ :?]\s*([^ :?]+(?:\s+[^ :?]+)*))?\s*$/;
       let raw = params.get('q') || '';
+      let m = re.exec(raw);
+      let rawcmd = m[1];
+      let rawparams = m[2] || '';
+      document.write('<h1>{' + rawcmd + '}{' rawparams '}</h1>');
+      
       let target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
       // Trim and normalize common whitespace
       let query = raw.trim().toUpperCase();
