@@ -13,6 +13,15 @@
 </head>
 <body>
   <script>
+    function doSearch(myTarget) {
+      const debug = true;
+      if (debug) {
+        document.write( '<h1>' + myTarget + '</h1>');
+      } else {
+        window.location.replace(myTarget);
+      }
+    }
+    
     (function () {
       // Read query parameter ?q=...
       const params = new URLSearchParams(window.location.search);
@@ -22,7 +31,7 @@
       let query = raw.trim().toUpperCase();
       
       if (/^PWB$/.test(query)) {
-        window.location.replace('https://batavia.internal.epo.org/inbox-prod/inbox/');
+        doSearch('https://batavia.internal.epo.org/inbox-prod/inbox/');
         return;
       }
 
@@ -40,7 +49,7 @@
           // sleep(3);
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
           const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
-          window.location.replace(target);
+          doSearch(target);
           return;
         }
         // If not allowed, continue to other handlers below.
@@ -49,7 +58,7 @@
       
       if (/^EP\d{8}$/.test(query)) {
         const target = 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' + encodeURIComponent(query);
-        window.location.replace(target);
+        doSearch(target);
         return;
       }
 
@@ -66,10 +75,10 @@
       // - Roman numeral I–X (1–4 chars)
       // - at least one space
       // - 1 to 4 decimal components
-      const gl-pattern = /^[A-H][\u2011\u2013-][IVX]{1,4}\s+[0-9]+(?:\.[0-9]+){0,3}$/;
+      const glPattern = /^[A-H][\u2011\u2013-][IVX]{1,4}\s+[0-9]+(?:\.[0-9]+){0,3}$/;
       
       // Test using the dash-normalized version, but keep the original for the destination
-      const isCitation = gl-pattern.test(dashNormalized);
+      const isCitation = glPattern.test(dashNormalized);
       
       if (isCitation) {
         // Forward to Guidelines with the original (unmodified) citation encoded
@@ -77,13 +86,13 @@
         const gl-citationWithDot = query.replace( /^([A-H][\u2011\u2013-][IVX]{1,4})\s+([0-9]+(?:\.[0-9]+){0,3})$/ , (_, left, right) => `${left}.${right}` );
 
         const target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epcgl/2025/$l/' + encodeURIComponent(citationWithDot) + '.xml';
-        window.location.replace(target);
+        doSearch(target);
       } else {
         // Otherwise, send to Google with the original query
         const target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
         // or to the new QT tool
         // const target = 'http://qt/' + raw.trim();
-        window.location.replace(target);
+        doSearch(target);
       }
     })();
   </script>
