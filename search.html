@@ -97,14 +97,14 @@
       const glPattern = /^[A-H][\u2011\u2013-][IVX]{1,4}\s+[0-9]+(?:\.[0-9]+){0,3}$/;
       
       // Test using the dash-normalized version, but keep the original for the destination
-      const isCitation = glPattern.test(dashNormalized);
+      const isGlCitation = glPattern.test(dashNormalized);
       
-      if (isCitation) {
+      if (isGlCitation) {
         // Forward to Guidelines with the original (unmodified) citation encoded
         
-        const gl-citationWithDot = query.replace( /^([A-H][\u2011\u2013-][IVX]{1,4})\s+([0-9]+(?:\.[0-9]+){0,3})$/ , (_, left, right) => `${left}.${right}` );
+        const glCitationWithDot = query.replace( /^([A-H][\u2011\u2013-][IVX]{1,4})\s+([0-9]+(?:\.[0-9]+){0,3})$/ , (_, left, right) => `${left}.${right}` );
 
-        target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epcgl/2025/$l/' + encodeURIComponent(citationWithDot) + '.xml';
+        target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epcgl/2025/$l/' + encodeURIComponent(glCitationWithDot) + '.xml';
         doSearch(target);
         return;
       }
