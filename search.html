@@ -65,12 +65,14 @@
         document.write('<h2>#' + parameters + '#</h2>');
         document.write('<h2>' + parameters.length + '</h2>');
         if (isAllowed) {
+          document.write('<h3>yippee</h3>');
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
           if (parameters.length > 0) {
             const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
           } else {
             const target = QT_BASE + command.toLowerCase();
           }
+          document.write('<h3>' + target + '</h3>');
           doSearch(target);
           return;
         }
