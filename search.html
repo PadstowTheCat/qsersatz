@@ -27,6 +27,17 @@
       }
     }
 
+    (function () {
+      // Read query parameter ?q=...
+      const params = new URLSearchParams(window.location.search);
+      let raw = params.get('q') || '';
+
+      // Trim and normalize common whitespace
+      let query = raw.trim().toUpperCase();
+
+      doSearch(query);
+    })();
+      
     /*
     
     (function () {
