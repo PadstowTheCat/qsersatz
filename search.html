@@ -81,6 +81,33 @@
         }
         // If not allowed, continue to other handlers below.
       }
+
+      // SLS handlers
+      // Normalize common dash variants to a single character for testing (not for redirect).
+      const dashNormalized = query
+        .replace(/\u2011/g, '-') // non-breaking hyphen
+        .replace(/\u2013/g, '-'); // en dash
+
+      // Regex for EPO Guidelines citation:
+      // - A–H
+      // - hyphen (allow -, U+2011, U+2013)
+      // - Roman numeral I–X (1–4 chars)
+      // - at least one space
+      // - 1 to 4 decimal components
+      const glPattern = /^[A-H][\u2011\u2013-][IVX]{1,4}\s+[0-9]+(?:\.[0-9]+){0,3}$/;
+      
+      // Test using the dash-normalized version, but keep the original for the destination
+      const isCitation = glPattern.test(dashNormalized);
+      
+      if (isCitation) {
+        // Forward to Guidelines with the original (unmodified) citation encoded
+        
+        const gl-citationWithDot = query.replace( /^([A-H][\u2011\u2013-][IVX]{1,4})\s+([0-9]+(?:\.[0-9]+){0,3})$/ , (_, left, right) => `${left}.${right}` );
+
+        const target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epcgl/2025/$l/' + encodeURIComponent(citationWithDot) + '.xml';
+        doSearch(target);
+        return;
+      }
       
       // Otherwise, send to Google with the original query
       target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
