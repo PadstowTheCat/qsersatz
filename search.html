@@ -52,10 +52,11 @@
         return;
       }
 
-      // Some things we want to send to the new QT tool
+      // Certain commands with at least one parameter redirect to the new QT tool
       const QT_BASE = 'http://qt/';
       const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' ];
-      const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
+      // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
+      const cmdMatch = query.match(/^[A-Za-z0-9]+(?:[ :][A-Za-z0-9]+(?: [A-Za-z0-9]+)*)?$/)
       if (cmdMatch) {
         const command = cmdMatch[1];
         const parameters = cmdMatch[2];
