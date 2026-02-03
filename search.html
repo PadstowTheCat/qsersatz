@@ -55,6 +55,7 @@
       // Certain commands, maybe with parameters, redirect to the new QT tool
       const QT_BASE = 'http://qt/';
       const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' ];
+      var target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
       // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
       const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/)
       if (cmdMatch) {
@@ -68,9 +69,11 @@
           document.write('<h3>yippee</h3>');
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
           if (parameters.length > 0) {
-            const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
+            document.write('<h3>Some parameters</h3>');
+            target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
           } else {
-            const target = QT_BASE + command.toLowerCase();
+            document.write('<h3>NO parameters</h3>');
+            target = QT_BASE + command.toLowerCase();
           }
           document.write('<h3>#' + target + '#</h3>');
           doSearch(target);
