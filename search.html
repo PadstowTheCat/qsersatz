@@ -56,19 +56,15 @@
       const QT_BASE = 'http://qt/';
       const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' ];
       // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
-      const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?([A-Za-z0-9]+(?: [A-Za-z0-9]+)*)?$/)
+      const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/)
       if (cmdMatch) {
         const command = cmdMatch[1];
-        const parameters = cmdMatch[3];
+        const parameters = query.substr(command.length + 2);
         const isAllowed = ALLOWED_COMMANDS.includes(command);
 
         if (isAllowed) {
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
-          if (parameters = undefined) {
-            const target = QT_BASE + command.toLowerCase();
-          } else {
-            const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
-          } 
+          const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
           doSearch(target);
           return;
         }
