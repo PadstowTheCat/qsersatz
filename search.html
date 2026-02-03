@@ -64,7 +64,11 @@
 
         if (isAllowed) {
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
-          const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
+          if (parameters = undefined) {
+            const target = QT_BASE + command.toLowerCase();
+          } else {
+            const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
+          } 
           doSearch(target);
           return;
         }
