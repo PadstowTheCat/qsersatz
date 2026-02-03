@@ -56,10 +56,10 @@
       const QT_BASE = 'http://qt/';
       const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' ];
       // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
-      const cmdMatch = query.match(/^[A-Za-z0-9]+(?:[ :][A-Za-z0-9]+(?: [A-Za-z0-9]+)*)?$/)
+      const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?([A-Za-z0-9]+(?: [A-Za-z0-9]+)*)?$/)
       if (cmdMatch) {
         const command = cmdMatch[1];
-        const parameters = cmdMatch[2];
+        const parameters = cmdMatch[3];
         const isAllowed = ALLOWED_COMMANDS.includes(command);
 
         if (isAllowed) {
