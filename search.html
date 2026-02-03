@@ -59,7 +59,7 @@
       const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/)
       if (cmdMatch) {
         const command = cmdMatch[1];
-        const parameters = query.substr(command.length + 2);
+        const parameters = query.slice(command.length + 1);
         const isAllowed = ALLOWED_COMMANDS.includes(command);
         document.write('<h2>%' + command + '%</h2>');
         document.write('<h2>#' + parameters + '#</h2>');
