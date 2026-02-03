@@ -52,6 +52,27 @@
         return;
       }
 
+      // Some things we want to send to the new QT tool
+      const QT_BASE = 'http://qt/';
+      const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' ];
+      const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
+      if (cmdMatch) {
+        const command = cmdMatch[1];
+        const parameters = cmdMatch[2];
+        const isAllowed = ALLOWED_COMMANDS.includes(command);
+
+        if (isAllowed) {
+          // document.write( '<h1>' + command + '</h1><br>' );
+          // document.write( '<h2>' + parameters + '</h2><br>' );
+          // sleep(3);
+          // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
+          const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
+          doSearch(target);
+          return;
+        }
+        // If not allowed, continue to other handlers below.
+      }
+      
       // Otherwise, send to Google with the original query
       const target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
       doSearch(target);
