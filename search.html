@@ -32,7 +32,7 @@
       // Read query parameter ?q=...
       const params = new URLSearchParams(window.location.search);
       let raw = params.get('q') || '';
-
+      let target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
       // Trim and normalize common whitespace
       let query = raw.trim().toUpperCase();
 
@@ -47,7 +47,7 @@
 
       // EP Application numbers redirect to DFR
       if (/^EP\d{8}$/.test(query)) {
-        const target = 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' + encodeURIComponent(query);
+        target = 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' + encodeURIComponent(query);
         doSearch(target);
         return;
       }
@@ -55,7 +55,7 @@
       // Certain commands, maybe with parameters, redirect to the new QT tool
       const QT_BASE = 'http://qt/';
       const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' ];
-      var target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
+      
       // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
       const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/)
       if (cmdMatch) {
@@ -83,7 +83,7 @@
       }
       
       // Otherwise, send to Google with the original query
-      const target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
+      target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
       doSearch(target);
     })();
       
