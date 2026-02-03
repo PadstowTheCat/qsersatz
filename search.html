@@ -52,7 +52,7 @@
         return;
       }
 
-      // Certain commands with at least one parameter redirect to the new QT tool
+      // Certain commands, maybe with parameters, redirect to the new QT tool
       const QT_BASE = 'http://qt/';
       const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' ];
       // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
@@ -64,7 +64,11 @@
 
         if (isAllowed) {
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
-          const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
+          if (parameters.length > 0) {
+            const target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
+          } else {
+            const target = QT_BASE + command.toLowerCase();
+          }
           doSearch(target);
           return;
         }
