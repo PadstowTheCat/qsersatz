@@ -76,7 +76,7 @@
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
           if (parameters.length > 0) {
             document.write('<h3>Some parameters</h3>');
-            target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
+            target = QT_BASE + command.toLowerCase() + '?' + encodeURIComponent(parameters);
           } else {
             document.write('<h3>NO parameters</h3>');
             target = QT_BASE + command.toLowerCase();
