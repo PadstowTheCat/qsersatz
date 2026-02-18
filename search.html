@@ -58,6 +58,40 @@
         return;
       }
 
+      // Certain commands, maybe with parameters, are handled directly
+      const DIRECT_COMMANDS = new Map([
+        [ 'DFR' , 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' ],
+        [ 'GGL' , 'https://www.google.com/search?q=' ]
+      ]);
+      
+      // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
+      const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/)
+      if (cmdMatch) {
+        const command = cmdMatch[1];
+        const parameters = query.slice(command.length + 1);
+        const isDirect = DIRECT_COMMANDS.has( command );
+        document.write('<h2>%' + command + '%</h2>');
+        document.write('<h2>#' + parameters + '#</h2>');
+        document.write('<h2>' + parameters.length + '</h2>');
+        if (isAllowed) {
+          document.write('<h3>yippee</h3>');
+          const DIRECT_BASE = DIRECT_COMMANDS.get( command );
+          document.write('<h3>' + DIRECT_BASE + '</h3>')
+          // Build URL
+          if (parameters.length > 0) {
+            document.write('<h3>Some parameters</h3>');
+            target = DIRECT_BASE + encodeURIComponent(parameters);
+          } else {
+            document.write('<h3>NO parameters</h3>');
+            target = DIRECT_BASE;
+          }
+          document.write('<h3>#' + target + '#</h3>');
+          doSearch(target);
+          return;
+        }
+        // If not a direct command, continue to other handlers below.
+      }
+      
       // Certain commands, maybe with parameters, redirect to the new QT tool
       const QT_BASE = 'http://qt/';
       const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' , 'IC' , 'ALY' ];
