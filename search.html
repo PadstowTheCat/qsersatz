@@ -63,13 +63,13 @@
         [ 'DFR' , 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' ],
         [ 'GGL' , 'https://www.google.com/search?q=' ]
       ]);
-      
+      console.log( DIRECT_COMMANDS );
       const directMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/) ;
       if (directMatch) {
         const dcommand = directMatch[1];
         const dparameters = query.slice(dcommand.length + 1);
         const isDirect = DIRECT_COMMANDS.has( dcommand );
-        document.write('<h2>%' + dcommand + '%</h2>');
+        document.write('<h2>DIRECT %' + dcommand + '%</h2>');
         document.write('<h2>#' + dparameters + '#</h2>');
         document.write('<h2>' + dparameters.length + '</h2>');
         if (isAllowed) {
