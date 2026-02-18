@@ -78,11 +78,11 @@
           const DIRECT_BASE = DIRECT_COMMANDS.get( dcommand );
           document.write('<h3>' + DIRECT_BASE + '</h3>');
           // Build URL
-          if (parameters.length > 0) {
-            document.write('<h3>Some parameters</h3>');
+          if (dparameters.length > 0) {
+            document.write('<h3>Some dparameters</h3>');
             target = DIRECT_BASE + encodeURIComponent(dparameters);
           } else {
-            document.write('<h3>NO parameters</h3>');
+            document.write('<h3>NO dparameters</h3>');
             target = DIRECT_BASE;
           }
           document.write('<h3>#' + target + '#</h3>');
