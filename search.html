@@ -64,23 +64,22 @@
         [ 'GGL' , 'https://www.google.com/search?q=' ]
       ]);
       
-      // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
-      const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/);
-      if (cmdMatch) {
-        const command = cmdMatch[1];
-        const parameters = query.slice(command.length + 1);
-        const isDirect = DIRECT_COMMANDS.has( command );
-        document.write('<h2>%' + command + '%</h2>');
-        document.write('<h2>#' + parameters + '#</h2>');
-        document.write('<h2>' + parameters.length + '</h2>');
+      const directMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/) ;
+      if (directMatch) {
+        const dcommand = directMatch[1];
+        const dparameters = query.slice(dcommand.length + 1);
+        const isDirect = DIRECT_COMMANDS.has( dcommand );
+        document.write('<h2>%' + dcommand + '%</h2>');
+        document.write('<h2>#' + dparameters + '#</h2>');
+        document.write('<h2>' + dparameters.length + '</h2>');
         if (isAllowed) {
           document.write('<h3>yippee</h3>');
-          const DIRECT_BASE = DIRECT_COMMANDS.get( command );
+          const DIRECT_BASE = DIRECT_COMMANDS.get( dcommand );
           document.write('<h3>' + DIRECT_BASE + '</h3>')
           // Build URL
           if (parameters.length > 0) {
             document.write('<h3>Some parameters</h3>');
-            target = DIRECT_BASE + encodeURIComponent(parameters);
+            target = DIRECT_BASE + encodeURIComponent(dparameters);
           } else {
             document.write('<h3>NO parameters</h3>');
             target = DIRECT_BASE;
@@ -96,7 +95,7 @@
       const QT_BASE = 'http://qt/';
       const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' , 'IC' , 'ALY' ];
       
-      // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/);
+      // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/) ;
       const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/);
       if (cmdMatch) {
         const command = cmdMatch[1];
