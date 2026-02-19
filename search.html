@@ -20,7 +20,8 @@
   <script>
     function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
+    }
+    
     function doSearch(myTarget) {
       const debug = false;
       if (debug) {
@@ -77,8 +78,8 @@
           document.write('<h2>DIRECT %' + dcommand + '%</h2>');
           document.write('<h2>#' + dparameters + '#</h2>');
           document.write('<h2>' + dparameters.length + '</h2>');
-        
-          document.write('<h3>yippee</h3>');
+          document.write('<h2>This is a direct command - I will figure out what the first bit means and call the URL directly, along with any parameters.</h2>');
+          
           const DIRECT_BASE = DIRECT_COMMANDS.get( dcommand );
           document.write('<h3>' + DIRECT_BASE + '</h3>');
           // Build URL
@@ -110,7 +111,8 @@
         document.write('<h2>#' + parameters + '#</h2>');
         document.write('<h2>' + parameters.length + '</h2>');
         if (isAllowed) {
-          document.write('<h3>yippee</h3>');
+          document.write('<h2>This is a allowed command - it is in my list of things that QT should take care of, along with any parameters.</h2>');
+          
           // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
           if (parameters.length > 0) {
             document.write('<h3>Some parameters</h3>');
