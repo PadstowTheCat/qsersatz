@@ -35,6 +35,7 @@
 
     (function () {
       // Read query parameter ?q=...
+      document.write('<h1>Parsing command and parameters</h1>');
       const params = new URLSearchParams(window.location.search);
       const re = /^\s*([^ :?]+)(?:[ :?]\s*([^ :?]+(?:\s+[^ :?]+)*))?\s*$/;
       let raw = params.get('q') || '';
