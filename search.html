@@ -22,7 +22,7 @@
     return new Promise(resolve => setTimeout(resolve, ms));
     }
     
-    function doSearch(myTarget) {
+    async function doSearch(myTarget) {
       const debug = false;
       if (debug) {
         document.write( '<h1>doSearch debug: ' + myTarget + '</h1>');
