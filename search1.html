@@ -62,8 +62,8 @@
                           { regex:/^dfr$/i , url:'dfr/*' } 
                         ] ;
       for (let sc in shortcuts) {
-        let myregex = shortcuts[i].regex;
-        let myurl   = shortcuts[i].url;
+        let myregex = shortcuts[sc].regex;
+        let myurl   = shortcuts[sc].url;
         if (reg.test(rawcmd)) {
           let target = myurl.replace('*',rawparams);
           doSearch(target);
