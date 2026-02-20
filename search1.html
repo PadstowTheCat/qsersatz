@@ -60,7 +60,7 @@
       }
 
       const shortcuts = [ { regex:/^pwb/i , url:'pwb/*' } ,
-                          { regex:/^dfr/i , url:'dfr/*' } 
+                          { regex:/^dfr/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*' } 
                         ] ;
       for ( let sc in shortcuts ) {
         let myregex = shortcuts[sc].regex;
@@ -69,7 +69,7 @@
         console.log( sc + myregex );
         if ( myregex.test( rawcmd ) ) {
           console.log( 'yes' );
-          target = myurl.replace( '*' , rawparams );
+          target = myurl.replace( '*' , encodeURIComponent( rawparams ) );
           doSearch(target);
           return;
         }
