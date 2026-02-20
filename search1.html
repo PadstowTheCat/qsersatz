@@ -62,13 +62,14 @@
       const shortcuts = [ { regex:/^pwb$/i , url:'pwb/*' } ,
                           { regex:/^dfr$/i , url:'dfr/*' } 
                         ] ;
-      for (let sc in shortcuts) {
+      for ( let sc in shortcuts ) {
         let myregex = shortcuts[sc].regex;
         let myurl   = shortcuts[sc].url;
         console.log( sc + myurl );
         console.log( sc + myregex );
-        if (myregex.test(rawcmd)) {
-          let target = myurl.replace('*',rawparams);
+        if ( myregex.test( rawcmd ) ) {
+          console.log( 'yes' );
+          target = myurl.replace( '*' , rawparams );
           doSearch(target);
           return;
         }
