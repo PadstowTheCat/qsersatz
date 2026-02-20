@@ -64,7 +64,7 @@
       for (let sc in shortcuts) {
         let myregex = shortcuts[sc].regex;
         let myurl   = shortcuts[sc].url;
-        if (myreg.test(rawcmd)) {
+        if (myregex.test(rawcmd)) {
           let target = myurl.replace('*',rawparams);
           doSearch(target);
         }
