@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>QSErsatz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <link rel="search" type="application/opensearchdescription+xml" href="https://padstowthecat.github.io/qsersatz/qsersatz.xml" title="QSErsatz search plugin" class="large">
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; padding: 2rem; }
+    code { background: #f4f4f4; padding: 0.15rem 0.3rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>If you can see this, I'm debugging!</h1>
+  <br>
+  <h2>Let's hope it works</h2>
+  <br>
+  
+  <script>
+    function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    async function doSearch(myTarget) {
+      const debug = false;
+      if (debug) {
+        document.write( '<h1>doSearch debug: ' + myTarget + '</h1>');
+      } else {
+        document.write('<h1>Redirecting...</h1>');
+        await sleep(3000);
+        window.location.assign(myTarget);
+      }
+    }
+
+    (function () {
+      // Read query parameter ?q=...
+      document.write('<h1>Parsing command and parameters</h1>');
+      const params = new URLSearchParams(window.location.search);
+      const re = /^\s*([^ :?]+)(?:[ :?]\s*([^ :?]+(?:\s+[^ :?]+)*))?\s*$/;
+      let raw = params.get('q') || '';
+      let m = re.exec(raw);
+      let rawcmd = m[1];
+      let rawparams = m[2] || '';
+      document.write('<h1>{' + rawcmd + '}{' + rawparams + '}</h1>');
+      
+      let target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
+      // Trim and normalize common whitespace
+      let query = raw.trim().toUpperCase();
+
+      // Debugging output
+      document.write('<h2> Query is: ' + query + '</h2>');
+
+      // Hard-coded PWB call
+      if (/^PWB$/.test(query)) {
+        doSearch('https://batavia.internal.epo.org/inbox-prod/inbox/');
+        return;
+      }
+
+      // EP Application numbers redirect to DFR
+      if (/^EP\d{8}$/.test(query)) {
+        target = 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' + encodeURIComponent(query);
+        doSearch(target);
+        return;
+      }
+
+      // Certain commands, maybe with parameters, are handled directly
+      const DIRECT_COMMANDS = new Map([
+        [ 'DFR' , 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' ],
+        [ 'GGL' , 'https://www.google.com/search?q=' ]
+      ]);
+      console.log( DIRECT_COMMANDS );
+      const directMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/) ;
+      if (directMatch) {
+        const dcommand = directMatch[1];
+        const dparameters = query.slice(dcommand.length + 1);
+        const isDirect = DIRECT_COMMANDS.has( dcommand );
+        if (isDirect) {
+          document.write('<h2>DIRECT %' + dcommand + '%</h2>');
+          document.write('<h2>#' + dparameters + '#</h2>');
+          document.write('<h2>' + dparameters.length + '</h2>');
+          document.write('<h2>This is a direct command - I will figure out what the first bit means and call the URL directly, along with any parameters.</h2>');
+          
+          const DIRECT_BASE = DIRECT_COMMANDS.get( dcommand );
+          document.write('<h3>' + DIRECT_BASE + '</h3>');
+          // Build URL
+          if (dparameters.length > 0) {
+            document.write('<h3>Some dparameters</h3>');
+            target = DIRECT_BASE + encodeURIComponent(dparameters);
+          } else {
+            document.write('<h3>NO dparameters</h3>');
+            target = DIRECT_BASE;
+          }
+          document.write('<h3>#' + target + '#</h3>');
+          doSearch(target);
+          return;
+        }
+        // If not a direct command, continue to other handlers below.
+      }
+      
+      // Certain commands, maybe with parameters, redirect to the new QT tool
+      const QT_BASE = 'http://qt/';
+      const ALLOWED_COMMANDS = [ 'DFR' , 'ANSERA' , 'IC' , 'ALY' , 'COPILOT' , 'STRASBOURG' ];
+      
+      // const cmdMatch = query.match(/^([A-Za-z0-9]+)\s+(.+)$/) ;
+      const cmdMatch = query.match(/^([A-Za-z0-9]+)([ :])?.*$/);
+      if (cmdMatch) {
+        const command = cmdMatch[1];
+        const parameters = query.slice(command.length + 1);
+        const isAllowed = ALLOWED_COMMANDS.includes(command);
+        document.write('<h2>%' + command + '%</h2>');
+        document.write('<h2>#' + parameters + '#</h2>');
+        document.write('<h2>' + parameters.length + '</h2>');
+        if (isAllowed) {
+          document.write('<h2>This is a allowed command - it is in my list of things that QT should take care of, along with any parameters.</h2>');
+          
+          // Build http:/qt/command:parameters (colon stays literal; parameters are URL-encoded)
+          if (parameters.length > 0) {
+            document.write('<h3>Some parameters</h3>');
+            target = QT_BASE + command.toLowerCase() + ':' + encodeURIComponent(parameters);
+          } else {
+            document.write('<h3>NO parameters</h3>');
+            target = QT_BASE + command.toLowerCase();
+          }
+          document.write('<h3>#' + target + '#</h3>');
+          doSearch(target);
+          return;
+        }
+        // If not allowed, continue to other handlers below.
+      }
+
+      // SLS handlers
+      // Normalize common dash variants to a single character for testing (not for redirect).
+      const dashNormalized = query
+        .replace(/\u2011/g, '-') // non-breaking hyphen
+        .replace(/\u2013/g, '-'); // en dash
+
+      // Regex for EPO Guidelines citation:
+      // - A–H
+      // - hyphen (allow -, U+2011, U+2013)
+      // - Roman numeral I–X (1–4 chars)
+      // - at least one space
+      // - 1 to 4 decimal components
+      const glPattern = /^[A-H][\u2011\u2013-][IVX]{1,4}\s+[0-9]+(?:\.[0-9]+){0,3}$/;
+      const epcPattern = /^[AR]\d{0,3}[A-Za-z]?$/;
+      
+      // Test using the dash-normalized version, but keep the original for the destination
+      const isGlCitation = glPattern.test(dashNormalized);
+      const isEPCCitation = epcPattern.test(dashNormalized);
+      
+      if (isGlCitation) {
+        // Forward to Guidelines with the original (unmodified) citation encoded
+        
+        const glCitationWithDot = query.replace( /^([A-H][\u2011\u2013-][IVX]{1,4})\s+([0-9]+(?:\.[0-9]+){0,3})$/ , (_, left, right) => `${left}.${right}` );
+
+        target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epcgl/2025/$l/' + encodeURIComponent(glCitationWithDot) + '.xml';
+        doSearch(target);
+        return;
+      }
+
+      if (isEPCCitation) {
+        // forward to EPC with initial capitalisation but other letters in LC
+        target = 'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epc/2025_04/$l/' + encodeURIComponent(raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase()) + '.xml';
+        doSearch(target);
+        return;
+      }
+
+      
+      // Otherwise, send to Google with the original query
+      target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
+      doSearch(target);
+    })();
+  </script>
+</body>
+</html>
