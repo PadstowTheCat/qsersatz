@@ -28,6 +28,7 @@
         document.write( '<h1>doSearch debug: ' + myTarget + '</h1>');
       } else {
         document.write('<h1>Redirecting...</h1>');
+        document.write( '<h1>doSearch debug: ' + myTarget + '</h1>');
         await sleep(3000);
         window.location.assign(myTarget);
       }
