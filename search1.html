@@ -59,8 +59,8 @@
         return;
       }
 
-      const shortcuts = [ { regex:/^pwb$/i , url:'pwb/*' } ,
-                          { regex:/^dfr$/i , url:'dfr/*' } 
+      const shortcuts = [ { regex:/^pwb/i , url:'pwb/*' } ,
+                          { regex:/^dfr/i , url:'dfr/*' } 
                         ] ;
       for ( let sc in shortcuts ) {
         let myregex = shortcuts[sc].regex;
