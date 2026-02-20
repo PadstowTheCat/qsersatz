@@ -52,13 +52,6 @@
       // Debugging output
       document.write('<h2> Query is: ' + query + '</h2>');
 
-      // EP Application numbers redirect to DFR
-      //if (/^EP\d{8}$/.test(query)) {
-      //  target = 'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/' + encodeURIComponent(query);
-      //  doSearch(target);
-      //  return;
-      //}
-
       const shortcuts = [ { regex:/^pwb/i , url:'pwb/*1' } ,
                           { regex:/^dfr/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*1' } ,
                           { regex:/^EP\d{8}$/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*0' }
