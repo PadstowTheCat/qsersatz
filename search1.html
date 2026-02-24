@@ -77,7 +77,8 @@
       //                    { regex:/^[AR]\d{0,3}[A-Z]?$/i , url:'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epc/2025_04/$l/*0' } ,
                           { regex:/^pwb/i      , url:'https://batavia.internal.epo.org/inbox-prod/inbox/' } ,
                           { regex:/^dfr/i      , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*1' } ,
-                          { regex:/^EP\d{8}$/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*0' }
+                          { regex:/^EP\d{8}$/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*0' } ,
+                          { regex:/^([TG]\d{1,4}\/\d{1,2})/i , url: 'http://apps.internal.epo.org/apps/dg3Decisions/?csn=*0' }
                         ] ;
       for ( let sc in shortcuts ) {
         let myregex = shortcuts[sc].regex;
