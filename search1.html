@@ -71,10 +71,11 @@
       // Debugging output
       document.write('<h2> Query is: ' + query + '</h2>');
 
-      const shortcuts = [ { regex:/^test/i , url:'test.html/q=test&one=*1&two=*2&three=*3' } , 
-                          { regex:/^reg/i , url:'https://register.epo.org/application?tab=doclist&number=*1' } ,
-                          { regex:/^pwb/i , url:'pwb/*1' } ,
-                          { regex:/^dfr/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*1' } ,
+      const shortcuts = [ { regex:/^test/i     , url:'test.html/q=test&one=*1&two=*2&three=*3' } , 
+                          { regex:/^reg/i      , url:'https://register.epo.org/application?tab=doclist&number=*1' } ,
+                          { regex:/^people/i'  , url:'https://intranet.epo.org/find-my-colleagues?search_api_fulltext=*1' } , 
+                          { regex:/^pwb/i      , url:'pwb/*1' } ,
+                          { regex:/^dfr/i      , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*1' } ,
                           { regex:/^EP\d{8}$/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*0' }
                         ] ;
       for ( let sc in shortcuts ) {
