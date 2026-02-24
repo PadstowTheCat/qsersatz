@@ -45,6 +45,7 @@
       let rawparams = m[2] || '';
       document.write('<h1>{' + rawcmd + '}{' + rawparams + '}</h1>');
       
+      // split rawparams up into individual arguments, a la Unix
       var myRegexp = /[^\s"]+|"([^"]*)"/gi;
       var myArgs = [];
       do {
@@ -69,7 +70,8 @@
       // Debugging output
       document.write('<h2> Query is: ' + query + '</h2>');
 
-      const shortcuts = [ { regex:/^pwb/i , url:'pwb/*1' } ,
+      const shortcuts = [ { regex:/^test/i , url:'test.html/q=test&one=*1&two=*2&three=*3' } , 
+                          { regex:/^pwb/i , url:'pwb/*1' } ,
                           { regex:/^dfr/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*1' } ,
                           { regex:/^EP\d{8}$/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*0' }
                         ] ;
@@ -80,7 +82,10 @@
         console.log( sc + myregex );
         if ( myregex.test( rawcmd ) ) {
           console.log( 'yes' );
-          target = myurl.replace( '*0' , rawcmd ).replace( '*1' , encodeURIComponent( rawparams ) );
+          target = myurl.replace( '*0' , rawcmd )
+          for (let i=0; i<myArgs.length; i++) {
+            target = target.replace( '*' + (i+1) , encodeURIComponent( myArgs[i] ) );
+          }
           doSearch(target);
           return;
         }
