@@ -45,6 +45,23 @@
       let rawparams = m[2] || '';
       document.write('<h1>{' + rawcmd + '}{' + rawparams + '}</h1>');
       
+      var myRegexp = /[^\s"]+|"([^"]*)"/gi;
+      var myArgs = [];
+      do {
+        //Each call to exec returns the next regex match as an array
+        var match = myRegexp.exec(myString);
+        if (match != null)
+        {
+            //Index 1 in the array is the captured group if it exists
+            //Index 0 is the matched text, which we use if no captured group exists
+            myArgs.push(match[1] ? match[1] : match[0]);
+        }
+      } while (match != null);
+
+      for (let i=0; i<myArgs.length; i++) {
+        document.write('<h3>{i' + i + '}{' + myArgs[i] + '}</h3>');
+      }
+      
       let target = 'https://www.google.com/search?q=' + encodeURIComponent(raw.trim());
       // Trim and normalize common whitespace
       let query = raw.trim().toUpperCase();
