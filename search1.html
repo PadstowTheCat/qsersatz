@@ -49,7 +49,7 @@
       var myArgs = [];
       do {
         //Each call to exec returns the next regex match as an array
-        var match = myRegexp.exec(myString);
+        var match = myRegexp.exec(rawparams);
         if (match != null)
         {
             //Index 1 in the array is the captured group if it exists
