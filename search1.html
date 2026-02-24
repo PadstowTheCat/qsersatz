@@ -74,7 +74,7 @@
       const shortcuts = [ { regex:/^test/i     , url:'test.html/q=test&one=*1&two=*2&three=*3' } , 
                           { regex:/^reg/i      , url:'https://register.epo.org/application?tab=doclist&number=*1' } ,
                           { regex:/^people/i   , url:'https://intranet.epo.org/find-my-colleagues?search_api_fulltext=*1' } ,
-                          { regex:/^[AR]\d{0,3}[A-Z]?$/i , url:'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epc/2025_04/$l/*0' } ,
+      //                    { regex:/^[AR]\d{0,3}[A-Z]?$/i , url:'https://batavia.internal.epo.org/sls/sls-service-prod/ui#text:sls2/pub/epc/2025_04/$l/*0' } ,
                           { regex:/^pwb/i      , url:'https://batavia.internal.epo.org/inbox-prod/inbox/' } ,
                           { regex:/^dfr/i      , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*1' } ,
                           { regex:/^EP\d{8}$/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*0' }
@@ -86,7 +86,8 @@
         console.log( sc + myregex );
         if ( myregex.test( rawcmd ) ) {
           console.log( 'yes' );
-          target = myurl.replace( '*0' , rawcmd )
+          target = myurl.replace( '*0' , rawcmd );
+          // target = target.replace( '**' , uppercmd );
           for (let i=0; i<myArgs.length; i++) {
             target = target.replace( '*' + (i+1) , encodeURIComponent( myArgs[i] ) );
           }
