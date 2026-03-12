@@ -80,7 +80,7 @@
                           { regex:/^pwb/i      , url:'https://batavia.internal.epo.org/inbox-prod/inbox/' } ,
                           { regex:/^dfr/i      , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*1' } ,
                           { regex:/^EP\d{8}$/i , url:'https://dfr.apps.epo.org/digital-file-repository/digital-file-repository-frontend-prod/dossier/*0' } ,
-                          { regex:/^([TG]\d{1,4}\/\d{1,2})/i , url: 'http://apps.internal.epo.org/apps/dg3Decisions/?csn=*0' }
+                          { regex:/^([TG]\d{1,4}\/\d{1,2})/i , url: 'https://www.epo.org/en/results?tab=boa&filters=%5B%5D&sortField=&sortDirection=&q=*' } // was 'http://apps.internal.epo.org/apps/dg3Decisions/?csn=*0' 
                         ] ;
       for ( let sc in shortcuts ) {
         let myregex = shortcuts[sc].regex;
