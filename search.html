@@ -89,7 +89,7 @@
         console.log( sc + myregex );
         if ( myregex.test( rawcmd ) ) {
           console.log( 'yes' );
-          target = myurl.replace( '*0' , encodeURIComponent( rawcmd );
+          target = myurl.replace( '*0' , encodeURIComponent( rawcmd ) );
           // target = target.replace( '**' , uppercmd );
           for (let i=0; i<myArgs.length; i++) {
             target = target.replace( '*' + (i+1) , encodeURIComponent( myArgs[i] ) );
